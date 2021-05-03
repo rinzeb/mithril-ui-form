@@ -99,7 +99,7 @@ const info = [
     ratings: { '0': 'extremely<br>bad', '5': 'super<br>good' },
   },
   {
-    id: 'my_rating',
+    id: 'my_rating_2',
     label: '',
     disabled: true,
     type: 'rating',

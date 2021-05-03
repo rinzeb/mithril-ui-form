@@ -5,7 +5,6 @@ export type ComponentType =
   | 'color'
   | 'colour'
   | 'date'
-  | 'date'
   | 'email'
   | 'file'
   | 'map'
