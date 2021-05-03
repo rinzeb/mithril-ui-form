@@ -3,6 +3,7 @@ import { LayoutForm, registerPlugin, UIForm, SlimdownView, I18n } from 'mithril-
 import { TextArea } from 'mithril-materialized';
 import { leafletPlugin } from 'mithril-ui-form-leaflet-plugin';
 import { ratingPlugin } from 'mithril-ui-form-rating-plugin';
+import { datetimePlugin } from 'mithril-ui-form-datetime-plugin';
 
 export interface IContext {
   admin: boolean;
@@ -114,6 +115,7 @@ const info = [
 You can also include _markdown_ in your UIForm.`,
   },
   { id: 'id', type: 'text', disabled: true, autogenerate: 'guid', required: true, className: 'col m6' },
+  { "id": "myTimeOfBirth", "type": "datetime", "label": "Time of birth?" },
   { id: 'event', type: 'text', maxLength: 80, required: true, className: 'col m6' },
   { id: 'area', type: 'map', required: true, className: 'col s12' },
   { id: 'categories', type: 'tags' },
@@ -132,6 +134,7 @@ You can also include _markdown_ in your UIForm.`,
 export const FormView = () => {
   registerPlugin('map', leafletPlugin);
   registerPlugin('rating', ratingPlugin);
+  registerPlugin('datetime', datetimePlugin);
 
   const state = {
     result: {} as ILessonLearned,
