@@ -13,6 +13,7 @@
     "clean": "rimraf lib dist",
     "build": "microbundle",
     "start": "microbundle watch",
+    "start:es": "microbundle watch --format es",
     "dev": "npm start",
     "dry-run": "npm publish --dry-run",
     "patch-release": "npm run clean && npm run build && npm version patch --force -m \"Patch release\" && npm publish && git push --follow-tags",
