@@ -32,7 +32,7 @@ export const datetimePlugin: PluginType = () => {
           ? transform('to', initialValue.valueOf())
           : initialValue.valueOf()
         : initialValue;
-      // console.log(initialValue && initialValue.toUTCString());
+      console.log(`datetimepicker: ${initialValue && initialValue.toUTCString()}`);
       containerId = containerId | 'body' as any;
       console.log(state);
       const { min, max } = props;
@@ -47,6 +47,7 @@ export const datetimePlugin: PluginType = () => {
         format: 'd-M-y H:mm',
         initialValue,
         onchange: (date: number | Date | string) => {
+          initialValue = new Date(date);
           onchange(new Date(date));
         },
         container: containerId as any,

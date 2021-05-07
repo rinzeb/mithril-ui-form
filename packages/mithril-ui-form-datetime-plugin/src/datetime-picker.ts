@@ -1,6 +1,6 @@
 import m, { FactoryComponent } from 'mithril';
 import { IInputOptions, Label, HelperText, toAttrs, uniqueId } from 'mithril-materialized';
-import { lightFormat } from 'date-fns';
+import { lightFormat, parse } from 'date-fns';
 
 export const padLeft = (str: string | number, length = 2, padding = '0'): string =>
   str.toString().length >= length ? str.toString() : padLeft(padding + str, length, padding);
@@ -30,6 +30,7 @@ export const DatetimePicker: FactoryComponent<
     }) => {
       const id = state.id;
       let inputDom: HTMLInputElement | null = null;
+      let currentDateTime: Date | null = null;
       const attributes = toAttrs(props);
       const initialValue: Date =
         typeof iv === 'number' || typeof iv === 'string' ? new Date(iv) : iv == undefined ? new Date() : iv;
@@ -40,28 +41,31 @@ export const DatetimePicker: FactoryComponent<
       const datetimeformat = format && typeof format === 'string' ? format : 'd-M-y H:mm';
       const clear = newRow ? '.clear' : '';
       const onCloseTime = () => {
-        if (onchange) {
+        if (onchange && state.tp.time) {
           const timeComponents: number[] = state.tp.time.split(':').map((c) => +c);
           state.dp.date.setHours(timeComponents[0]);
           state.dp.date.setMinutes(timeComponents[1]);
           console.log(`timepicker closed with ${state.dp.date.toUTCString()}`);
           onchange(state.dp.date);
           inputDom && (inputDom.value = lightFormat(state.dp.date, datetimeformat));
+        } else {
+          inputDom && (inputDom.value = lightFormat(currentDateTime ? currentDateTime : initialValue, datetimeformat));
         }
+        state.tp && state.tp.destroy();
       };
       const onCloseDate = () => {
-        console.log('datepicker close ');
-        if (onchange) {
-          state.dp && onchange(state.dp.date);
-        }
+        // TODO: Check for cancel or done button clicked
+        // Prepare for opening timepicker
+        state.dp.date.setHours(currentDateTime ? currentDateTime.getHours() : initialValue.getHours());
+        state.dp.date.setMinutes(currentDateTime ? currentDateTime.getMinutes() : initialValue.getMinutes());
+        inputDom!.value = toHourMin(state.dp.date);
         state.tp = M.Timepicker.init(
           inputDom as any,
           {
             ...props,
             container: 'body', //`#${elm.dom.id}`,
             twelveHour: false,
-            showClearBtn: true,
-            defaultTime: toHourMin(initialValue),
+            showClearBtn: false,
             // onSelect: onchange ? (hours: number, minutes: number) => onchange(`${hours}:${minutes}`) : undefined,
             onCloseEnd: onCloseTime,
           } as Partial<M.TimepickerOptions>
@@ -69,18 +73,21 @@ export const DatetimePicker: FactoryComponent<
         console.log('timepicker init');
         state.tp && state.tp.open();
       };
+      const onOpenDate = () => {
+        currentDateTime = parse(inputDom!.value, datetimeformat, Date.now());
+        state.dp.setDate(currentDateTime);
+      };
       const onCreate = (el: any) => {
         inputDom = el.dom as HTMLInputElement;
-        console.log('datetimepicker in init ');
         state.dp = M.Datepicker.init(inputDom, {
           ...props,
-          showClearBtn: true,
+          showClearBtn: false,
           setDefaultDate: initialValue ? true : false,
           minDate: minDate,
           maxDate: maxDate,
           defaultDate: initialValue ? new Date(initialValue) : new Date(),
-          // onSelect: onchange,
           onClose: onCloseDate,
+          onOpen: onOpenDate,
         } as Partial<M.DatepickerOptions>);
         inputDom.value = lightFormat(initialValue, datetimeformat);
       };
