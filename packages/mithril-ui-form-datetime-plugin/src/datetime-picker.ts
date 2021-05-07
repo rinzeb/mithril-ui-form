@@ -30,7 +30,6 @@ export const DatetimePicker: FactoryComponent<
     }) => {
       const id = state.id;
       let inputDom: HTMLInputElement | null = null;
-      className = className ? className : props && props.className ? props.className : 'col s12 m6';
       let currentDateTime: Date | null = null;
       const attributes = toAttrs(props);
       const initialValue: Date =
