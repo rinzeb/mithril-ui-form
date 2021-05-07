@@ -44,7 +44,7 @@ export const datetimePlugin: PluginType = () => {
         minDate,
         maxDate,
         setDefaultDate: initialValue ? true : false,
-        format: 'mmmm d, yyyy',
+        format: 'd-M-y H:mm',
         initialValue,
         onchange: (date: number | Date | string) => {
           onchange(new Date(date));
