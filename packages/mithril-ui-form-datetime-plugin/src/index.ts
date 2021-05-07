@@ -17,7 +17,7 @@ export const datetimePlugin: PluginType = () => {
         helperText,
         initialValue,
         newRow,
-        className = 'col s12',
+        className,
         iconName,
         isMandatory,
         onchange,
@@ -40,6 +40,7 @@ export const datetimePlugin: PluginType = () => {
       const maxDate = max ? (!initialValue || max > initialValue.valueOf() ? new Date(max) : initialValue) : undefined;
       return m(DatetimePicker, {
         ...props,
+        className,
         label,
         minDate,
         maxDate,
