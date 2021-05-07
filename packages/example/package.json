@@ -8,7 +8,7 @@
     "clean": "rimraf .cache dist",
     "start": "parcel index.html",
     "dev": "npm start",
-    "build": "npm run clean && parcel build index.html --out-dir ../../docs --public-url https://erikvullings.github.io/mithril-ui-form"
+    "build": "npm run clean && parcel build index.html --out-dir ../../docs --public-url https://rinzeb.github.io/mithril-ui-form"
   },
   "keywords": [
     "mithril",
