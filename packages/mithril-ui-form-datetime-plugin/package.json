@@ -1,6 +1,6 @@
 {
   "name": "mithril-ui-form-datetime-plugin",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Plugin to add a date-time component to Mithril-UI-Form.",
   "main": "lib/index.js",
   "module": "lib/index.esm.js",
